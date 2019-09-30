@@ -47,6 +47,8 @@ const DEFAULT_CONFIG = Object.freeze({
   serverPort: 2121,
   token: createToken(),
   updateSnapshots: false,
+  backgroundBlend: 'difference',
+  name: '',
 });
 
 const CONFIG_KEY = 'cypress-plugin-snapshots';
@@ -66,10 +68,10 @@ function getConfig() {
 
 function getImageConfig(options = {}) {
   return Object.keys(DEFAULT_IMAGE_CONFIG)
-    .filter((key) => options && options[key] !== undefined)
+    .filter((key) => options.imageConfig && options.imageConfig[key] !== undefined)
     .reduce(
       (imageConfig, key) => {
-        imageConfig[key] = options[key];
+        imageConfig[key] = options.imageConfig[key];
         return imageConfig;
       },
       merge({}, DEFAULT_IMAGE_CONFIG, getConfig().imageConfig)
@@ -91,6 +93,11 @@ function getScreenshotConfig(options = {}) {
   screenshotConfig.blackout = (screenshotConfig.blackout || []);
   screenshotConfig.blackout.push('.snapshot-diff');
   return screenshotConfig;
+}
+
+function getCustomName(suppliedConfig) {
+  const cfg = suppliedConfig || getConfig();
+  return cfg.name;
 }
 
 function getServerUrl(suppliedConfig) {
@@ -118,6 +125,7 @@ module.exports = {
   getImageConfig,
   getPrettierConfig,
   getScreenshotConfig,
+  getCustomName,
   getServerUrl,
   initConfig,
   shouldNormalize,

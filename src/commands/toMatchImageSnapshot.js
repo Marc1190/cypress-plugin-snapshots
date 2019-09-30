@@ -1,4 +1,4 @@
-/* globals Cypress, before, after, cy */
+/* globals cy */
 /* eslint-env browser */
 const { MATCH_IMAGE } = require('../tasks/taskNames');
 const getTaskData = require('../utils/commands/getTaskData');
@@ -6,7 +6,7 @@ const logMessage = require('../utils/commands/logMessage');
 const { NO_LOG } = require('../constants');
 const { COMMAND_MATCH_IMAGE_SNAPSHOT: commandName } = require('./commandNames');
 const getImageData = require('../utils/image/getImageData');
-const { getImageConfig, getScreenshotConfig } = require('../config');
+const { getImageConfig, getScreenshotConfig, getCustomName } = require('../config');
 
 function afterScreenshot(taskData) {
   return ($el, props) => {
@@ -21,10 +21,12 @@ function afterScreenshot(taskData) {
 
 async function toMatchImageSnapshot(subject, commandOptions) {
   const options = getImageConfig(commandOptions);
+  const customName = getCustomName(commandOptions);
 
   const taskData = await getTaskData({
     commandName,
     options,
+    customName,
     subject,
   });
 

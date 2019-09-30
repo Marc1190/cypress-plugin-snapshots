@@ -76,6 +76,7 @@ You can pass the following options to `toMatchImageSnapshot` to override default
 {
   "createDiffImage": true,       // Should a "diff image" be created, can be disabled for performance
   "threshold": 0.01,             // Amount in pixels or percentage before snapshot image is invalid
+  "name": "custom image name",   // Naming resulting image file with a custom name rather than concatenating test titles
   "thresholdType": "percent",    // Can be either "pixel" or "percent"
 }
 ```
@@ -153,11 +154,12 @@ Add the configuration below to your `cypress.json` file to make changes to the d
     "serverHost": "localhost",       // Hostname for "update snapshot server"
     "serverPort": 2121,              // Port number for  "update snapshot server"
     "updateSnapshots": false,        // Automatically update snapshots, useful if you have lots of changes
+    "backgroundBlend": "difference", // background-blend-mode for diff image, useful to switch to "overlay" 
   }
 }
 ```
-\
-## Caveats :warning: 
+
+## Caveats :warning:
 There is currently an issue when running "All Tests" in Cypress with this plugin. You can follow the progress on the issue [here](https://github.com/meinaart/cypress-plugin-snapshots/issues/10) and [here](https://github.com/cypress-io/cypress/issues/3090). When running "All Tests" any tests that utilize `cypress-plugin-snapshots` will throw an error.
 
 ## Roadmap
@@ -167,6 +169,7 @@ Below is a list of functionality that is under consideration for implementing in
 - Disable "update snapshots" server in headless mode
 - Add more unit tests
 - Add [JSDoc](http://usejsdoc.org/) documentation
+- Improve TypeScript bindings
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style.
